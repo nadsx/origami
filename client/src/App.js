@@ -1,28 +1,57 @@
-import style from './App.module.css';
+import { Component } from "react";
 
-function App() {
-  return (
-    <div className= {style.app}>
-    <h1>Lets BEGINNN</h1>
+import * as postService from './service/postService';
 
-    <nav className={style.navigation}>
-      <ul>
-        <li className="listItem"><img src="/white-origami-bird.png" alt="White origami"/></li>
-        <li className="listItem"><a href="#">Going to 1</a></li>
-        <li className="listItem"><a href="#">Going to 2</a></li>
-        <li className="listItem"><a href="#">Going to 3</a></li>
-        <li className="listItem"><a href="#">Going to 4</a></li>
-        <li className="listItem"><a href="#">Going to 5</a></li>
-        <li className="listItem"><a href="#">Going to 6</a></li>
-        <li className="listItem"><a href="#">Going to 7</a></li>
-        <li className="listItem"><a href="#">Going to 8</a></li>
-        <li className="listItem"><a href="#">Going to 9</a></li>
-        <li className="listItem"><a href="#">Going to 10</a></li>
-        <li className="listItem"><a href="#">Going to 11</a></li>
-      </ul>
-    </nav>
-    </div>
-  );
+import Header from "./components/Header";
+import Menu from "./components/Menu";
+import Main from "./components/Main";
+
+import style from "./App.module.css";
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state ={
+      posts: []
+    }
+  }
+
+  componentDidMount() {
+    postService.getAll()
+      .then(posts => {
+        this.setState({posts})
+      });
+  }
+
+  render() {
+    return (
+      <div className={style.app}>
+        <Header />
+        <div className={style.container}>
+          <Menu />
+
+          <Main post={this.state.posts} />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
+
+// function App() {
+//   return (
+//     <div className={style.app}>
+//       <Header />
+//       <div className={style.container}>
+//         <Menu />
+
+//         <Main />
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
